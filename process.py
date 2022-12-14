@@ -7,8 +7,18 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
+import requests
 
-weights_path = './model/yolov3.weights'
+# for line in urllib2.urlopen(target_url):
+#     print line
+
+# weights_path = urlopen(
+#     "https://firebasestorage.googleapis.com/v0/b/test-8ecf6.appspot.com/o/yolov3.weights?alt=media&token=bab04113-4f7b-4d1d-a178-b4483440954a")
+
+response = requests.get("https://firebasestorage.googleapis.com/v0/b/test-8ecf6.appspot.com/o/yolov3.weights?alt=media&token=bab04113-4f7b-4d1d-a178-b4483440954a")
+open("yolov3.weights", "wb").write(response.content)
+
+weights_path = './yolov3.weights';
 configuration_path = './model/yolov3.cfg'
 labels = open('./model/coco.names').read().strip().split('\n')
 probability_minimum = 0.5
@@ -23,7 +33,7 @@ def ImagePath(path):
     bounding_boxes = []
     confidences = []
     class_numbers = []
-    
+
     image_input = cv2.imread(path)
     blob = cv2.dnn.blobFromImage(
         image_input, 1/255.0, (416, 416), swapRB=True, crop=False)

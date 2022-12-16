@@ -12,10 +12,10 @@ from os.path import exists
 
 file_exists = exists("./yolov3.weights")
 
-response = requests.get("https://firebasestorage.googleapis.com/v0/b/de-weadar.appspot.com/o/yolov3.weights?alt=media&token=ff9e9c8e-3106-47d7-b3f8-6ada3214c221")
-open("./yolov3.weights", "wb").write(response.content)
+# response = requests.get("https://firebasestorage.googleapis.com/v0/b/de-weadar.appspot.com/o/yolov3.weights?alt=media&token=ff9e9c8e-3106-47d7-b3f8-6ada3214c221")
+# open("./yolov3.weights", "wb").write(response.content)
 
-weights_path = './yolov3.weights';
+weights_path = './model/yolov3.weights';
 configuration_path = './model/yolov3.cfg'
 labels = open('./model/coco.names').read().strip().split('\n')
 probability_minimum = 0.5

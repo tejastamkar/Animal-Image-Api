@@ -10,9 +10,10 @@ from os.path import exists
 # weights_path = urlopen(
 #     "https://firebasestorage.googleapis.com/v0/b/test-8ecf6.appspot.com/o/yolov3.weights?alt=media&token=bab04113-4f7b-4d1d-a178-b4483440954a")
 
-
-response = requests.get("https://firebasestorage.googleapis.com/v0/b/test-8ecf6.appspot.com/o/yolov3.weights?alt=media&token=bab04113-4f7b-4d1d-a178-b4483440954a")
-open("yolov3.weights", "wb").write(response.content)
+file_exists = exists("./yolov3.weights")
+if file_exists == False:
+    response = requests.get("https://firebasestorage.googleapis.com/v0/b/test-8ecf6.appspot.com/o/yolov3.weights?alt=media&token=bab04113-4f7b-4d1d-a178-b4483440954a")
+    open("yolov3.weights", "wb").write(response.content)
 
 weights_path = './yolov3.weights';
 configuration_path = './model/yolov3.cfg'

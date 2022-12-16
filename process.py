@@ -1,8 +1,11 @@
 import numpy as np
-from cv2 import dnn , imread
-# from tensorflow.keras.utils import to_categorical 
+from cv2 import dnn, imread
+import cv2
+# from tensorflow.keras.utils import to_categorical
 # from tensorflow.keras.preprocessing.image import load_img, img_to_array
 import requests
+import urllib
+from PIL import Image
 from os.path import exists
 # for line in urllib2.urlopen(target_url):
 #     print line
@@ -30,8 +33,9 @@ def ImagePath(path):
     bounding_boxes = []
     confidences = []
     class_numbers = []
-    try: 
-        image_input = imread(path)
+    try:
+        img = Image.open(path)
+        image_input = np.array(img)
         blob = dnn.blobFromImage(
             image_input, 1/255.0, (416, 416), swapRB=True, crop=False)
         network.setInput(blob)
@@ -55,7 +59,7 @@ def ImagePath(path):
 
             for item in sorted(set(class_numbers)):
                 OutputDec = labels[item]
-        
+
                 return OutputDec
             return None
     except Exception as e:

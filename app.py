@@ -8,7 +8,7 @@ app = Flask(__name__)
 def getImage():
     if request.method == 'POST':
         file = request.files['files']
-        results = process.ImagePath(file.filename)
+        results = process.ImagePath(file)
         print(results)
         return str(results)
 

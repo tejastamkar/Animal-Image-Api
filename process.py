@@ -11,9 +11,9 @@ from os.path import exists
 #     "https://firebasestorage.googleapis.com/v0/b/test-8ecf6.appspot.com/o/yolov3.weights?alt=media&token=bab04113-4f7b-4d1d-a178-b4483440954a")
 
 file_exists = exists("./yolov3.weights")
-if file_exists == False:
-    response = requests.get("https://firebasestorage.googleapis.com/v0/b/test-8ecf6.appspot.com/o/yolov3.weights?alt=media&token=bab04113-4f7b-4d1d-a178-b4483440954a")
-    open("yolov3.weights", "wb").write(response.content)
+
+response = requests.get("https://firebasestorage.googleapis.com/v0/b/de-weadar.appspot.com/o/yolov3.weights?alt=media&token=ff9e9c8e-3106-47d7-b3f8-6ada3214c221")
+open("./yolov3.weights", "wb").write(response.content)
 
 weights_path = './yolov3.weights';
 configuration_path = './model/yolov3.cfg'

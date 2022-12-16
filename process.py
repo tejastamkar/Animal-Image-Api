@@ -15,7 +15,7 @@ if file_exists == False:
     response = requests.get("https://firebasestorage.googleapis.com/v0/b/test-8ecf6.appspot.com/o/yolov3.weights?alt=media&token=bab04113-4f7b-4d1d-a178-b4483440954a")
     open("yolov3.weights", "wb").write(response.content)
 
-weights_path = './model/yolov3.weights';
+weights_path = './yolov3.weights';
 configuration_path = './model/yolov3.cfg'
 labels = open('./model/coco.names').read().strip().split('\n')
 probability_minimum = 0.5

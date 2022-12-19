@@ -9,7 +9,6 @@ def getImage():
     if request.method == 'POST':
         file = request.files['files']
         results = process.ImagePath(file)
-        print(results)
         return str(results)
 
 if __name__ == "__main__":

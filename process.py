@@ -18,7 +18,7 @@ file_exists = exists("./yolov3.weights")
 # response = requests.get("https://firebasestorage.googleapis.com/v0/b/de-weadar.appspot.com/o/yolov3.weights?alt=media&token=ff9e9c8e-3106-47d7-b3f8-6ada3214c221")
 # open("./yolov3.weights", "wb").write(response.content)
 
-weights_path = './model/yolov3.weights';
+weights_path = './model/yolov3.weights'
 configuration_path = './model/yolov3.cfg'
 labels = open('./model/coco.names').read().strip().split('\n')
 probability_minimum = 0.5
@@ -30,17 +30,21 @@ layers_names_output = [layersnamesall[i-1]
 
 
 def ImagePath(path):
+
     bounding_boxes = []
     confidences = []
     class_numbers = []
+    OutputArray = []
     try:
         img = Image.open(path)
         image_input = np.array(img)
-        blob = dnn.blobFromImage(
+        blob = cv2.dnn.blobFromImage(
             image_input, 1/255.0, (416, 416), swapRB=True, crop=False)
+        blob_to_show = blob[0, :, :, :].transpose(1, 2, 0)
         network.setInput(blob)
         output_from_network = network.forward(layers_names_output)
         h, w = image_input.shape[:2]
+
         for result in output_from_network:
             for detection in result:
                 scores = detection[5:]
@@ -57,11 +61,15 @@ def ImagePath(path):
                     confidences.append(float(confidence_current))
                     class_numbers.append(class_current)
 
-            for item in sorted(set(class_numbers)):
-                OutputDec = labels[item]
+        # %matplotlib inline
+        # plt.rcParams['figure.figsize'] = (5.0,5.0)
+        # plt.imshow(cv2.cvtColor(image_input, cv2.COLOR_BGR2RGB))
+        # plt.show()
 
-                return OutputDec
-            return None
+        
+        for item in sorted(set(class_numbers)):
+            OutputArray += [labels[item]]
+
+        return OutputArray
     except Exception as e:
         return str(e)
-

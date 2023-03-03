@@ -1,19 +1,15 @@
 import numpy as np
 from cv2 import dnn, imread
-import cv2
-# from tensorflow.keras.utils import to_categorical
-# from tensorflow.keras.preprocessing.image import load_img, img_to_array
-import requests
-import urllib
-from PIL import Image
-from os.path import exists
+
+
+# from PIL import Imag
 # for line in urllib2.urlopen(target_url):
 #     print line
 
 # weights_path = urlopen(
 #     "https://firebasestorage.googleapis.com/v0/b/test-8ecf6.appspot.com/o/yolov3.weights?alt=media&token=bab04113-4f7b-4d1d-a178-b4483440954a")
 
-file_exists = exists("./yolov3.weights")
+# file_exists = exists("./yolov3.weights")
 
 # response = requests.get("https://firebasestorage.googleapis.com/v0/b/de-weadar.appspot.com/o/yolov3.weights?alt=media&token=ff9e9c8e-3106-47d7-b3f8-6ada3214c221")
 # open("./yolov3.weights", "wb").write(response.content)
@@ -22,23 +18,22 @@ weights_path = './model/yolov3.weights'
 configuration_path = './model/yolov3.cfg'
 labels = open('./model/coco.names').read().strip().split('\n')
 probability_minimum = 0.5
-threshold = 0.3
+threshold = 0.5
 network = dnn.readNetFromDarknet(configuration_path, weights_path)
 layersnamesall = network.getLayerNames()
 layers_names_output = [layersnamesall[i-1]
                        for i in network.getUnconnectedOutLayers()]
 
 
-def ImagePath(path):
+def imagePath(path):
 
     bounding_boxes = []
     confidences = []
     class_numbers = []
     OutputArray = []
     try:
-        img = Image.open(path)
-        image_input = np.array(img)
-        blob = cv2.dnn.blobFromImage(
+        image_input = imread(path)
+        blob = dnn.blobFromImage(
             image_input, 1/255.0, (416, 416), swapRB=True, crop=False)
         blob_to_show = blob[0, :, :, :].transpose(1, 2, 0)
         network.setInput(blob)
@@ -66,7 +61,6 @@ def ImagePath(path):
         # plt.imshow(cv2.cvtColor(image_input, cv2.COLOR_BGR2RGB))
         # plt.show()
 
-        
         for item in sorted(set(class_numbers)):
             OutputArray += [labels[item]]
 
